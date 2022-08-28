@@ -16,6 +16,7 @@
   "dependencies": {
     "firebase": "^9.9.3",
     "svelte-materialify": "^0.3.11",
+    "svelte-qrcode": "^1.0.0",
     "svelte-spa-router": "^3.3.0"
   }
 }
