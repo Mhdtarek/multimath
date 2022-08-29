@@ -22,7 +22,7 @@
   <Button>host</Button>
 </AppBar>
 </MaterialApp>
-<Host/>
+<Game/>
 </main>
 
 <style>
