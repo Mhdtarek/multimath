@@ -14,6 +14,7 @@
     "vite": "^2.9.15"
   },
   "dependencies": {
+    "@mdi/js": "^7.0.96",
     "firebase": "^9.9.3",
     "svelte-materialify": "^0.3.11",
     "svelte-qrcode": "^1.0.0",

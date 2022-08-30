@@ -23,6 +23,7 @@
 </AppBar>
 </MaterialApp>
 <Host/>
+<Game/>
 </main>
 
 <style>

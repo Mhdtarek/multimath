@@ -1,13 +1,18 @@
 <script>
 // @ts-nocheck
 
-  import { MaterialApp, Button, Row, Col, Container, Divider  } from 'svelte-materialify';
+  import { MaterialApp, Button, Row, Col, Container, Divider, TextField  } from 'svelte-materialify';
   import { initializeApp } from "firebase/app";
   import { getFirestore } from "firebase/firestore";
-  import { doc, onSnapshot } from "firebase/firestore";
-  let yes = "hi";
+  import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
   let questions = []
-  
+  let game = {};
+  let players = []
+  let hasJoinedGame = false
+  const rules = [(v) => v.length <= 20   || 'Max 20 characters'];
+  $: name = ""
+
+
   const firebaseConfig = {
     apiKey: "AIzaSyD4Aq2zW_aVeeiWv1Argn3OhuGcjH0Heps",
     authDomain: "multimath-9eb3f.firebaseapp.com",
@@ -18,7 +23,6 @@
     measurementId: "G-BRWMTFYP0D"
   };
 
-  newQuestion()
   function generateEquation() {
     var a = Math.floor(Math.random() * 20) + 1;
     var b = Math.floor(Math.random() * 20) + 1;
@@ -61,23 +65,57 @@
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+function readGame() {   
+  const unsub = onSnapshot(doc(db, "games", "SFDslFQ8geR0b4fbHe5F"), (doc) => {
+    console.log("Current dsssata: ", doc.data());
+    game = doc.data()
+    players = doc.data().players
+    console.log(game)
+    
+  });
+}
+async function joinGame() {
+  // Add a new document in collection "cities"
+  await updateDoc(doc(db, "games", "SFDslFQ8geR0b4fbHe5F"), {
+    players: [...players, {"name": name, "score": 0}],
+    playerCount: game.playerCount++
+  });
+  hasJoinedGame = true
+}
 
-
-/*
-const unsub = onSnapshot(doc(db, "games", "MC3ZFFcrk10I14ze8bt3"), (doc) => {
-    console.log("Current data: ", doc.data());
-});
-*/
+console.log(game, players, "sysys")
+readGame()
+newQuestion()
+joinGame()
 </script>
 
 <main>
   <MaterialApp>
+{#if game.gameState === "Starting"}
+  {#if !hasJoinedGame}
+  <Row>
+    <Col></Col>
+    <Col>
+      <TextField clearable counter={20} bind:value={name} {rules}>namn</TextField>
+      <Button on:click={joinGame}>spela</Button>
+    </Col>
+    <Col></Col>
+  </Row>
+  {/if}
+  {#if hasJoinedGame}
+  <p class="font-weight-black text-center ">VÄNTA</p>
+  <p class="text-center">Du heter {name}</p>
+  {/if}
+{/if}
+
+
+{#if game.gameState === "started"}
     <Container>
       <h4 class="text-h3 text-center">{questions[4]}</h4>
       <Divider style="margin-bottom:20 0;" inset />
       <Row>
         <Col class="text-center">
-            <Button size="x-large" on:click={() => ifCorrectAnswer(questions[0], questions[4])} class="indigo lighten-2" block>{questions[0]}</Button>
+          <Button size="x-large" on:click={() => ifCorrectAnswer(questions[0], questions[4])} class="indigo lighten-2" block>{questions[0]}</Button>
         </Col>
         <Col class="text-center">
           <Button size="x-large" on:click={() => ifCorrectAnswer(questions[1], questions[4])} class="indigo lighten-1" block>{questions[1]}</Button>
@@ -92,5 +130,6 @@ const unsub = onSnapshot(doc(db, "games", "MC3ZFFcrk10I14ze8bt3"), (doc) => {
         </Col>
       </Row>
     </Container>
+    {/if}
   </MaterialApp>
 </main>
