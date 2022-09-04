@@ -7,7 +7,8 @@
   import { AppBar, Button, Icon, Menu, ListItem, MaterialApp } from 'svelte-materialify';
     let routes = {
     "/": Home,
-    "/Game:id": Game,
+    "/Game/:id": Game,
+    "/HostGame": Host,
     "*": NotFound
     }
 </script>
@@ -22,7 +23,7 @@
   <Button>host</Button>
 </AppBar>
 </MaterialApp>
-<Game/>
+<Router {routes}/>
 </main>
 
 <style>

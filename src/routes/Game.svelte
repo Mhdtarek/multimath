@@ -5,6 +5,7 @@
   import { initializeApp } from "firebase/app";
   import { getFirestore } from "firebase/firestore";
   import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
+  export let params = {}
   let questions = []
   let game = {};
   let players = []
@@ -50,7 +51,6 @@
       return
     }
     newQuestion()
-    console.log("correct")
 
   }
 
@@ -65,28 +65,24 @@
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-function readGame() {   
-  const unsub = onSnapshot(doc(db, "games", "SFDslFQ8geR0b4fbHe5F"), (doc) => {
+function readGame(gameId) {   
+  const unsub = onSnapshot(doc(db, "games", params.id), (doc) => {
     console.log("Current dsssata: ", doc.data());
     game = doc.data()
     players = doc.data().players
-    console.log(game)
     
   });
 }
 async function joinGame() {
   // Add a new document in collection "cities"
-  await updateDoc(doc(db, "games", "SFDslFQ8geR0b4fbHe5F"), {
+  await updateDoc(doc(db, "games", params.id), {
     players: [...players, {"name": name, "score": 0}],
     playerCount: game.playerCount++
   });
   hasJoinedGame = true
 }
-
-console.log(game, players, "sysys")
 readGame()
 newQuestion()
-joinGame()
 </script>
 
 <main>
@@ -132,4 +128,5 @@ joinGame()
     </Container>
     {/if}
   </MaterialApp>
+  {params.id}
 </main>

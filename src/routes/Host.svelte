@@ -20,11 +20,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 let game = {}
 let players = []
-let gameCreated = true
+let gameCreated = false
 let gameId = ""
 let uri = ''
 let playersCount = 0
-
+let currentGameState = ""
 
 
 
@@ -40,7 +40,7 @@ async function generateGame() {
   readGame(docRef.id)
   gameCreated = true
   gameId = docRef.id
-  uri = 'https://multimath.vercel.app/#/game/' + gameId
+  uri = 'https://www.multimath.vercel.app/#/Game/' + gameId
 }
 
 async function StartGame(gameRef) {
@@ -55,13 +55,12 @@ async function StartGame(gameRef) {
 
 // read the game the host has created
 function readGame(gameRef) {   
-  const unsub = onSnapshot(doc(db, "games", "SFDslFQ8geR0b4fbHe5F"), (doc) => {
+  const unsub = onSnapshot(doc(db, "games", gameRef), (doc) => {
     game = doc.data()
     console.log("Current data: ", doc.data());
     players = doc.data().players 
-    console.log(players.length)
     playersCount = players.length
-
+    currentGameState =  doc.data().gameState 
 
 })}
 readGame("read")
@@ -75,20 +74,32 @@ readGame("read")
   {/if}   
   
   <Container>
-    {#if gameCreated}
+  {#if gameCreated}
+    {#if currentGameState === "Starting"}
     <div class="right">
-       <Button size="small" on:click={StartGame}>starta spel</Button>
+      <Button size="small" on:click={StartGame}>starta spel</Button>
     </div>
 
     <div class="center ">
-      <QRCode codeValue="12354234562345" squareSize=150/>
+      <QRCode codeValue={uri} squareSize=150/>
     </div>
     {#each players as player}
-    <Chip class="ma-2 blue darken-4 blue-text darken-1">
-      <Icon path={mdiAccount} />
-      <span>{player.name}</span>
-    </Chip>
-  {/each}
+      <Chip class="ma-2 blue darken-4 blue-text darken-1">
+        <Icon path={mdiAccount} />
+        <span>{player.name}</span>
+      </Chip>
+    {/each}
+  {/if}
+  {#if currentGameState === "started"}
+    <Row>
+      <Col>
+      {#each players as player}
+      <p>{player.name} {player.score}</p>
+      {/each}
+      </Col>
+      <Col></Col>
+    </Row>
+  {/if}
  {/if}
 </Container>
 </main>
