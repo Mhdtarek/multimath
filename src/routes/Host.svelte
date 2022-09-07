@@ -40,11 +40,11 @@ async function generateGame() {
   readGame(docRef.id)
   gameCreated = true
   gameId = docRef.id
-  uri = 'https://www.multimath.vercel.app/#/Game/' + gameId
+  uri = 'https://multimath.vercel.app/#/Game/' + gameId
 }
 
 async function StartGame(gameRef) {
-  const washingtonRef = doc(db, "games", "SFDslFQ8geR0b4fbHe5F");
+  const washingtonRef = doc(db, "games", gameId);
   await updateDoc(washingtonRef, {
     gameState: "started"
   });

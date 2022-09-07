@@ -10,6 +10,8 @@
   let game = {};
   let players = []
   let hasJoinedGame = false
+  let userArrayNumber = 0
+  let playersScore = []
   const rules = [(v) => v.length <= 20   || 'Max 20 characters'];
   $: name = ""
 
@@ -51,7 +53,9 @@
       return
     }
     newQuestion()
-
+    playersScore = players
+    playersScore[userArrayNumber].score = playersScore[userArrayNumber].score + 10
+    updateScore()
   }
 
 //get random int from min , max 
@@ -80,6 +84,12 @@ async function joinGame() {
     playerCount: game.playerCount++
   });
   hasJoinedGame = true
+  userArrayNumber = players.length - 1
+}
+async function updateScore() {
+  await updateDoc(doc(db, "games", params.id), {
+    players: playersScore
+  });
 }
 readGame()
 newQuestion()
