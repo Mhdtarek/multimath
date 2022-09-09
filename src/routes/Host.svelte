@@ -82,7 +82,7 @@
 
       //if there is, end the game.
       if (playerscheck.length >= 1) {
-        //  endGame();
+        endGame();
       }
     });
   }
