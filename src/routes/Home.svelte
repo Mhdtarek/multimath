@@ -1,5 +1,4 @@
 <main>
-    <h1>hem</h1>
-    <p><a href="/#/home">hem</a></p>
-    <p><a href="/#/host">skapa spel</a></p>a
+    <h2>multimath-9eb3f</h2>
+    <p><a href="/#/HostGame">skapa spel</a></p>a
 </main>

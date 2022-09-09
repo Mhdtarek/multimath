@@ -16,11 +16,9 @@
 <main>
 <MaterialApp>
 <AppBar>
-  <span slot="title">multimath</span>
+  <span slot="title"><a href="/#/">multimath</a></span>
   <div style="flex-grow:1" />
-  <Button href="/">home</Button>
-  <Button href="/#/Game">play</Button>
-  <Button>host</Button>
+  <Button><a href="/#/HostGame">Skapa Spel</a></Button>
 </AppBar>
 </MaterialApp>
 <Router {routes}/>
@@ -31,5 +29,8 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
-
+  a, a:hover, a:focus, a:active {
+      text-decoration: none;
+      color: inherit;
+ }
 </style>
