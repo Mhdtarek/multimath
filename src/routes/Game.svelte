@@ -38,7 +38,7 @@
   function generateEquation() {
     var a = Math.floor(Math.random() * 20) + 1;
     var b = Math.floor(Math.random() * 20) + 1;
-    var op = ["+", "-"][Math.floor(Math.random() * 4)];
+    var op = ["+", "-"][Math.floor(Math.random() * 2)];
     return a + op + b;
   }
 
