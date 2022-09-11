@@ -4,7 +4,7 @@
 
 ## MULTIMATH
 
-learn math with friends, Simply host and let other players join using the QR Code.
+Learn math with friends, Simply host and let other players join using the QR Code.
 
 
 ## Author
