@@ -43,7 +43,8 @@
     { name: "+, -", value: ["+", "-"] },
     { name: "*, /", value: ["*", "-"] },
     { name: "*, /, +, -", value: ["*", "-", "+", "/"] },
-    { name: "*, +", value: ["*", "-"] },
+    { name: "*, +", value: ["*", "+"] },
+    { name: "/, -", value: ["/", "-"] },
   ];
   const rules = [(v) => v.length <= 20 || "Max 20 characters"];
 
