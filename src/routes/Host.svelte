@@ -11,6 +11,7 @@
     Row,
     Col,
     TextField,
+    Select,
   } from "svelte-materialify";
   import { doc, onSnapshot, updateDoc } from "firebase/firestore";
   import { mdiAccount } from "@mdi/js";
@@ -35,19 +36,27 @@
   let playersCount = 0;
   let currentGameState = "";
   let maxScore = "";
-  let maxScoreNumber = 0;
+  let maxScoreNumber = 100;
   let playerscheck = [];
-
+  let value = [];
+  const items = [
+    { name: "+, -", value: ["+", "-"] },
+    { name: "*, /", value: ["*", "-"] },
+    { name: "*, /, +, -", value: ["*", "-", "+", "/"] },
+    { name: "*, +", value: ["*", "-"] },
+  ];
   const rules = [(v) => v.length <= 20 || "Max 20 characters"];
 
   // Add a new game with a generated id.
   async function generateGame() {
+    const equations = value;
     const docRef = await addDoc(collection(db, "games"), {
       gameState: "Starting",
       type: "default",
       playerCount: 0,
       players: [],
       scoreMode: "default",
+      equations,
     });
     readGame(docRef.id);
     gameCreated = true;
@@ -72,9 +81,12 @@
       players = doc.data().players;
       playersCount = players.length;
       currentGameState = doc.data().gameState;
+
+      // Sort the players.
       players.sort(function (a, b) {
         return b.score - a.score;
       });
+
       //check if any user has the end score
       playerscheck = players.filter((player) => {
         return player.score === maxScoreNumber;
@@ -104,6 +116,8 @@
           <TextField clearable counter={20} bind:value={maxScore} {rules}
             >Slut Poäng</TextField
           >
+          <Select {items} bind:value>Regular</Select>
+          {value}
           <Button on:click={generateGame}>skapa spel</Button>
         </Col>
         <Col />

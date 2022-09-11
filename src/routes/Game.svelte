@@ -15,6 +15,7 @@
   import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
   export let params = {};
   let questions = [];
+  let equations = [];
   let game = {};
   let players = [];
   let hasJoinedGame = false;
@@ -38,7 +39,7 @@
   function generateEquation() {
     var a = Math.floor(Math.random() * 20) + 1;
     var b = Math.floor(Math.random() * 20) + 1;
-    var op = ["+", "-"][Math.floor(Math.random() * 2)];
+    var op = equations[Math.floor(Math.random() * equations.length)];
     return a + op + b;
   }
 
@@ -88,20 +89,24 @@
 
   function readGame(gameId) {
     const unsub = onSnapshot(doc(db, "games", params.id), (doc) => {
-      console.log("Current dsssata: ", doc.data());
+      console.log("(GAME) Current data: ", doc.data());
       game = doc.data();
       players = doc.data().players;
+      equations = doc.data().equations;
     });
   }
+
   async function joinGame() {
     // Add a new document in collection "cities"
     await updateDoc(doc(db, "games", params.id), {
       players: [...players, { name: name, score: 0 }],
       playerCount: game.playerCount++,
     });
+    newQuestion();
     hasJoinedGame = true;
     userArrayNumber = players.length - 1;
   }
+
   async function updateScore() {
     await updateDoc(doc(db, "games", params.id), {
       players: playersScore,
