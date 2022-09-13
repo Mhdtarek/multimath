@@ -64,8 +64,12 @@
     let checkIfCorrect = eval(equation);
     //console.log(equation, currentQuestion)
     if (checkIfCorrect != currentQuestion) {
-      console.log("whoops! not true!");
+      playersScore[userArrayNumber].score =
+        playersScore[userArrayNumber].score - 10;
+
       newQuestion();
+      updateScore();
+      console.log("Fel");
       return;
     }
     newQuestion();
@@ -123,9 +127,9 @@
         <Row>
           <Col />
           <Col>
-            <TextField clearable counter={20} bind:value={name} {rules}
-              >namn</TextField
-            >
+            <TextField clearable counter={20} bind:value={name} {rules}>
+              namn
+            </TextField>
             <Button on:click={joinGame}>spela</Button>
           </Col>
           <Col />

@@ -114,11 +114,10 @@
       <Row>
         <Col />
         <Col>
-          <TextField clearable counter={20} bind:value={maxScore} {rules}
-            >Slut Poäng</TextField
-          >
-          <Select {items} bind:value>Regular</Select>
-          {value}
+          <TextField clearable counter={20} bind:value={maxScore} {rules}>
+            Poäng för att sluta spelet
+          </TextField>
+          <Select {items} bind:value>Typ av spel</Select>
           <Button on:click={generateGame}>skapa spel</Button>
         </Col>
         <Col />
