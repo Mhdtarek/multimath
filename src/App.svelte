@@ -14,7 +14,7 @@
   } from "svelte-materialify";
   let routes = {
     "/": Home,
-    "/Game/:id": Game,
+    "/Game/:id/:gameid": Game,
     "/HostGame": Host,
     "*": NotFound,
   };
@@ -23,9 +23,8 @@
 <main>
   <MaterialApp>
     <AppBar>
-      <span slot="title"><a href="/#/">multimath</a></span>
+      <span slot="title"><a href="/#/">multigames</a></span>
       <div style="flex-grow:1" />
-      <Button><a href="/#/HostGame">Skapa Spel</a></Button>
     </AppBar>
   </MaterialApp>
   <Router {routes} />

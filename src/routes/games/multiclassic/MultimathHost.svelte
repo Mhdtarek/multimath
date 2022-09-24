@@ -15,7 +15,7 @@
   } from "svelte-materialify";
   import { doc, onSnapshot, updateDoc } from "firebase/firestore";
   import { mdiAccount } from "@mdi/js";
-  import QRCode from "../lib/QRJS.svelte";
+  import QRCode from "../../../lib/QRJS.svelte";
 
   const firebaseConfig = {
     apiKey: "AIzaSyD4Aq2zW_aVeeiWv1Argn3OhuGcjH0Heps",
@@ -62,7 +62,7 @@
     readGame(docRef.id);
     gameCreated = true;
     gameId = docRef.id;
-    uri = "https://multimath.vercel.app/#/Game/" + gameId;
+    uri = `https://multimath.vercel.app/#/Game/${gameId}/1`;
     maxScoreNumber = Number(maxScore);
     console.log(maxScoreNumber);
   }
