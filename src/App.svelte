@@ -14,7 +14,7 @@
   } from "svelte-materialify";
   let routes = {
     "/": Home,
-    "/Game/:id/:gameid": Game,
+    "/Game/:id/": Game,
     "/HostGame": Host,
     "*": NotFound,
   };
