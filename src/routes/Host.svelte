@@ -156,8 +156,9 @@
             <Row noGutters>
               <Col cols={4} offset={6} offset_md={4}>
                 <div class="pa-2 text-center">
-                  <h5>flest poäng</h5>
+                  <h5>Flest poäng</h5>
                   <p>{players[0].name}</p>
+                  <p><b>MÅL: få {maxScore} poäng</b></p>
                 </div>
               </Col>
             </Row>
@@ -175,24 +176,51 @@
           </div>
         {/if}
         {#if currentGameState === "ended"}
-          <div
-            class="elevation-2 yellow"
-            style="padding: 30px; margin-bottom: 15px;"
-          >
+        {#if players[0]}
+          <div class="elevation-2 green" style="padding: 30px; margin-bottom: 15px;">
             <Row noGutters>
               <Col cols={4} offset={6} offset_md={4}>
-                <div class="pa-2 text-center">
-                  <h4>VINNARE</h4>
-                  <p>{players[0].name}</p>
+                <div class="darken-1 txt-center">
+                  <h4>FÖRSTA PLATS</h4>
+                  <p>{players[0].name} | {players[0].score}</p>
                 </div>
               </Col>
             </Row>
           </div>
+        {/if}
+      
+        {#if players[1]}
+          <div class="elevation-2 yellow" style="padding: 30px; margin-bottom: 15px;">
+            <Row noGutters>
+              <Col cols={4} offset={6} offset_md={4}>
+                <div class="darken-1 text-center">
+                  <h4>ANDRA PLATS</h4>
+                  <p>{players[1].name} | {players[1].score}</p>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        {/if}
+      
+        {#if players[2]}
+          <div class="elevation-2 red" style="padding: 30px; margin-bottom: 15px;">
+            <Row noGutters>
+              <Col cols={4} offset={6} offset_md={4}>
+                <div class="darken-1 text-center">
+                  <h4>TREDJE PLATS</h4>
+                  <p>{players[2].name} | {players[2].score}</p>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        {/if}
+      
+        {#if players.length > 3}
           <div class="elevation-2">
             <Row noGutters>
               <Col cols={4} offset={6} offset_md={4}>
                 <div class="pa-2 text-center">
-                  {#each players as p}
+                  {#each players.slice(3) as p}
                     <p>{p.name} | {p.score}</p>
                   {/each}
                 </div>
@@ -200,6 +228,8 @@
             </Row>
           </div>
         {/if}
+      {/if}
+          
       {/if}
     </Container>
   </MaterialApp>

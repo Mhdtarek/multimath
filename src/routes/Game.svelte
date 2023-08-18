@@ -244,7 +244,7 @@
 
     {#if game.gameState === "started"}
     {#if isCountdown}
-          <h5 class="text-center">{countdown}</h5>
+          <h4 style="margin-top: 50px;" class="text-center">{countdown}</h4>
         {/if}
         {#if !isCountdown}
           {#if hasJoinedGame}
