@@ -23,7 +23,7 @@
 <main>
   <MaterialApp>
     <AppBar>
-      <span slot="title"><a href="/#/">multigames</a></span>
+      <span slot="title"><a href="/#/">multimatte</a></span>
       <div style="flex-grow:1" />
     </AppBar>
   </MaterialApp>
