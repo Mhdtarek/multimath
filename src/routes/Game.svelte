@@ -31,6 +31,10 @@
   let modscore1 = [];
   let modscore2 = [];
   let modscore3 = [];
+  let isCountdown = true
+  let countdownInterval; // To store the interval ID
+
+  let countdown = 3
 
   const rules = [(v) => v.length <= 20 || "Max 20 characters"];
   $: name = "";
@@ -46,11 +50,12 @@
   };
 
   function generateEquation() {
-    var a = Math.floor(Math.random() * 20) + 1;
-    var b = Math.floor(Math.random() * 20) + 1;
-    var op = equations[Math.floor(Math.random() * equations.length)];
-    return a + op + b;
-  }
+  var a = Math.floor(Math.random() * 20) + 1; // Positive random number from 1 to 20
+  var b = Math.floor(Math.random() * (20 - a)) + 1; // Positive random number from 1 to (20 - a)
+  var op = equations[Math.floor(Math.random() * equations.length)];
+  return a + op + b;
+}
+
 
   function newQuestion() {
     var oneThree = getRandomInt(1, 3);
@@ -66,7 +71,15 @@
 
     // console.log(questions)
   }
-
+  function startCountdown() {
+  countdownInterval = setInterval(() => {
+    countdown--;
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      isCountdown = false
+    }
+  }, 1000); // Countdown interval of 1 second
+}
   // check if the answer is correct
   function ifCorrectAnswer(equation, currentQuestion) {
     // set mod score array to default score array
@@ -135,6 +148,8 @@
       score1 = doc.data().score1;
       score2 = doc.data().score2;
       score3 = doc.data().score3;
+
+      if (game.gameState == "started") startCountdown()
 
       console.log(
         "(GAME)",
@@ -228,51 +243,56 @@
     {/if}
 
     {#if game.gameState === "started"}
-      {#if hasJoinedGame}
-        <Container>
-          <h4 class="text-h3 text-center">{questions[4]}</h4>
-          <Divider style="margin-bottom:20 0;" inset />
-          <Row>
-            <Col class="text-center">
-              <Button
-                size="x-large"
-                on:click={() => ifCorrectAnswer(questions[0], questions[4])}
-                class="indigo lighten-2"
-                block>{questions[0]}</Button
-              >
-            </Col>
-            <Col class="text-center">
-              <Button
-                size="x-large"
-                on:click={() => ifCorrectAnswer(questions[1], questions[4])}
-                class="indigo lighten-1"
-                block>{questions[1]}</Button
-              >
-            </Col>
-          </Row>
-          <Row>
-            <Col class="text-center">
-              <Button
-                size="x-large"
-                on:click={() => ifCorrectAnswer(questions[2], questions[4])}
-                class="indigo lighten-3"
-                block>{questions[2]}</Button
-              >
-            </Col>
-            <Col class="text-center">
-              <Button
-                size="x-large"
-                on:click={() => ifCorrectAnswer(questions[3], questions[4])}
-                class="indigo lighten-4"
-                block>{questions[3]}</Button
-              >
-            </Col>
-          </Row>
-        </Container>
-      {/if}
-      {#if !hasJoinedGame}
-        <p>Spelet har redan Startat</p>
-      {/if}
+    {#if isCountdown}
+          <h5 class="text-center">{countdown}</h5>
+        {/if}
+        {#if !isCountdown}
+          {#if hasJoinedGame}
+            <Container>
+              <h4 class="text-h3 text-center">{questions[4]}</h4>
+              <Divider style="margin-bottom:20 0;" inset />
+              <Row>
+                <Col class="text-center">
+                  <Button
+                    size="x-large"
+                    on:click={() => ifCorrectAnswer(questions[0], questions[4])}
+                    class="indigo lighten-2"
+                    block>{questions[0]}</Button
+                  >
+                </Col>
+                <Col class="text-center">
+                  <Button
+                    size="x-large"
+                    on:click={() => ifCorrectAnswer(questions[1], questions[4])}
+                    class="indigo lighten-1"
+                    block>{questions[1]}</Button
+                  >
+                </Col>
+              </Row>
+              <Row>
+                <Col class="text-center">
+                  <Button
+                    size="x-large"
+                    on:click={() => ifCorrectAnswer(questions[2], questions[4])}
+                    class="indigo lighten-3"
+                    block>{questions[2]}</Button
+                  >
+                </Col>
+                <Col class="text-center">
+                  <Button
+                    size="x-large"
+                    on:click={() => ifCorrectAnswer(questions[3], questions[4])}
+                    class="indigo lighten-4"
+                    block>{questions[3]}</Button
+                  >
+                </Col>
+              </Row>
+            </Container>
+          {/if}
+          {#if !hasJoinedGame}
+            <p>Spelet har redan Startat</p>
+          {/if}
+        {/if}
     {/if}
 
     {#if game.gameState === "ended"}

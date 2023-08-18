@@ -9,7 +9,7 @@
 
   onMount(() => {
     let script = document.createElement("script");
-    script.src = "src/lib/qrcode.min.js";
+    script.src = "/qrcode.min.js";
     document.head.append(script);
 
     script.onload = function () {
@@ -25,8 +25,9 @@
   });
 </script>
 
-<div id="qrcode" />
-
+<div id="qrcode" >
+  <p>{codeValue}</p>
+</div>
 <style>
   #qrcode {
     width: 20px;
